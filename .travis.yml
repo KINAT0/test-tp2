@@ -7,3 +7,4 @@ before_install:
 
 script:
   - npm test
+  - newman run https://www.getpostman.com/collections/e5ba84c5c52edacba4de

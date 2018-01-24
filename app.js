@@ -14,12 +14,17 @@ app
     .get(function (req, res) {
         var id = req.params.id;
 
+        var repository = new UserRepository(db);
+        var user = repository.findOneById(id);
+
+
         /**
          * Implémenter ce controlleur afin qu'il rechereche en base de donnée l'utilisateur par son ID et le retourne
          * sous format json au client.(voir le controlleur .post)
          */
-
-        res.send('Not implemented');
+         res.header("Access-Control-Allow-Origin", "*");
+        //res.send('Not implemented');
+        res.send(user);
     })
 
     // Creation d'un utilisateur

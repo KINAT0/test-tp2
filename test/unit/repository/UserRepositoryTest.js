@@ -45,3 +45,33 @@ describe("UserRepository", function() {
     });
 
 });
+
+describe("UserRepository findOneById", function()){
+  it("should call db.write", function()){
+    var mockDb = jasmine.createSpyObj('db',['get','find','value']);
+
+    mockDb.get.and.returnValue(mockDb);
+    mockDb.find.and.returnValue(mockDb);
+    mockDb.value.and.returnValue({
+      id: '123',
+      firstname: 'Jean',
+      lastname: 'Test',
+      birthday: '21-01-2018'
+            });
+
+            var repository = new UserRepository(mockDb);
+            var user = repository.findOneById('123');
+            expect(user.id).toEqual('123');
+            expect(user.firstname).toEqual('Jean');
+            expect(user.lastname).toEqual('Test');
+            expect(user.birthday).toEqual('21-01-2018');
+        });
+      UserRepository.prototype.findOneById = function (id) {
+        if (!id) {
+            throw 'User id is undefined';
+        }
+        return this.db
+                .get('users')
+                .find({ id: id })
+                .value();
+      };
