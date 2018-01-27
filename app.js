@@ -44,23 +44,33 @@ app
 
     //mise à jour d'un utilisateur
     .put(function (req, res) {
+        var id = req.params.id;
 
-        /**
-         * Implémenter le controlleur
-         */
+        var repository = new UserRepository(db);
+        var user = repository.findOneById(id);
 
-        res.send('Not implemented');
+        if(req.body.firstname != undefined)
+          user.firstname = req.body.firstname;
+        if(req.body.lastname != undefined)
+          user.lastname = req.body.lastname;
+        if(req.body.birthday != undefined)
+          user.birthday = req.body.birthday;
+
+        db.update(user);
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send(user)
     })
 
     //suppression d'un utilisateur
     .delete(function (req, res) {
-        /**
-         * Implémenter le controlleur
-         */
+        var id = req.params.id;
 
-        res.send('Not implemented');
+        var repository = new UserRepository(db);
+        repository.delete(id);
+
+        res.send('ok.');
     });
-
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
